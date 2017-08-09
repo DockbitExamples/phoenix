@@ -49,8 +49,7 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :dockbit_phoenix_example, DockbitPhoenixExample.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("USER"),
   database: "dockbit_phoenix_example_dev",
   hostname: "localhost",
   pool_size: 10
