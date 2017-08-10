@@ -14,7 +14,7 @@ config :dockbit_phoenix_example, DockbitPhoenixExample.Endpoint,
 # Configure your database
 config :dockbit_phoenix_example, DockbitPhoenixExample.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: System.get_env("DB_USER")",
+  username: System.get_env("DB_USER"),
   password: System.get_env("DB_PASS"),
   database: System.get_env("DB_NAME"),
   pool_size: 15
