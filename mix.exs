@@ -4,7 +4,7 @@ defmodule DockbitPhoenixExample.Mixfile do
   def project do
     [
       app: :dockbit_phoenix_example,
-      version: "0.0.1",
+      version: get_version(),
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -57,5 +57,35 @@ defmodule DockbitPhoenixExample.Mixfile do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
+  end
+
+  defp version_from_file(file \\ "VERSION") do
+    File.read(file)
+  end
+
+  defp handle_file_version({:ok, content}) do
+    content
+  end
+  defp handle_file_version({:error, _}) do
+    retrieve_version_from_git()
+  end
+  defp retrieve_version_from_git do
+    require Logger
+    Logger.warn "Calling out to `git describe` for the version number. This is slow! You should think about a hook to set the VERSION file"
+    System.cmd("git", ["describe", "--always", "--tags"])
+    |> Tuple.to_list
+    |> List.first
+    |> String.strip
+  end
+
+  defp get_version do
+    version_from_file()
+    |> handle_file_version()
+    |> String.split("-")
+    |> case do
+      [tag] -> tag
+      [tag, num_commits, commit] -> "#{tag}-#{num_commits}-#{commit}"
+    end
+    |> String.replace_leading("v", "")
   end
 end
