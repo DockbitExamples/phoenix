@@ -14,6 +14,7 @@ config :dockbit_phoenix_example, DockbitPhoenixExample.Endpoint,
 # Configure your database
 config :dockbit_phoenix_example, DockbitPhoenixExample.Repo,
   adapter: Ecto.Adapters.Postgres,
+  hostname: System.get_env("DB_HOST"),
   username: System.get_env("DB_USER"),
   password: System.get_env("DB_PASS"),
   database: System.get_env("DB_NAME"),
